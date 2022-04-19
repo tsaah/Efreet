@@ -1,0 +1,43 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "(Windows Debug) sandbox",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/bin-debug/bin/efreet.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/bin-debug/bin/",
+            "environment": [],
+            // "console": "internalConsole"
+            "console": "integratedTerminal"
+            // "console": "newExternalWindow",
+            // "console": "externalTerminal"
+        },
+        {
+            "name": "(Windows Release) sandbox",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/bin-release/bin/efreet.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/bin-release/bin/bin/",
+            "environment": [],
+            "console":"newExternalWindow",
+        },
+        {
+            "name": "(Linux) sandbox",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/bin/efreet",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/bin/",
+            "environment": [],
+        }
+    ]
+}

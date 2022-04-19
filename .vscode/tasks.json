@@ -1,0 +1,42 @@
+{
+    "tasks": [
+        {
+            "type": "shell",
+            "label": "build debug",
+            "windows": {
+                "command": "${workspaceFolder}/build_debug.bat",
+            },
+            "linux": {
+                "command": "${workspaceFolder}/build_debug.sh",
+            },
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [
+                "$msCompile"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "type": "shell",
+            "label": "build release",
+            "windows": {
+                "command": "${workspaceFolder}/build_release.bat",
+            },
+            "linux": {
+                "command": "${workspaceFolder}/build_release.sh",
+            },
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [
+                "$msCompile"
+            ],
+            "group": "build"
+        }
+    ],
+    "version": "2.0.0"
+}

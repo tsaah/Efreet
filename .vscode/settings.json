@@ -1,0 +1,18 @@
+{
+    "files.associations": {
+        "atomic": "cpp",
+        "string": "cpp",
+        "xiosbase": "cpp",
+        "xlocale": "cpp",
+        "cmath": "cpp",
+        "system_error": "cpp",
+        "cstddef": "cpp",
+        "memory": "cpp",
+        "xmemory": "cpp",
+        "vector": "cpp",
+        "initializer_list": "cpp",
+        "type_traits": "cpp",
+        "xutility": "cpp",
+        "iosfwd": "cpp"
+    }
+}
