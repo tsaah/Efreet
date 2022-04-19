@@ -50,7 +50,7 @@ LRESULT applicationProc(::HWND windowHandle, u32 message, ::WPARAM wParam, ::LPA
         case WM_MOUSEMOVE: {
             // const v2i pos(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
             // E_Input.processMouseMove(pos);
-            E_TRACE("event mouse move '%ix%i'", GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
+            // E_TRACE("event mouse move '%ix%i'", GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
         } break;
         case WM_MOUSEWHEEL: {
             i32 zDelta = GET_WHEEL_DELTA_WPARAM(wParam);

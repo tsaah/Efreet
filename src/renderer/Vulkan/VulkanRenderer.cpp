@@ -58,7 +58,7 @@ u32 VulkanRenderer::version() {
 }
 
 b32 VulkanRenderer::init(const RendererBackendConfig& config) {
-    LoggerProvider::setLogger(config.logger);
+    LoggerProvider::setLogger(config.logger, "RENDERER");
 
     // Setup Vulkan instance.
     VkApplicationInfo applicationInfo = { VK_STRUCTURE_TYPE_APPLICATION_INFO };

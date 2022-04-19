@@ -21,7 +21,7 @@ Logger& Logger::instance() {
     return i;
 }
 
-void Logger::log(LogLevel level, const char* message, ...) {
+void Logger::log(LogLevel level, const char* prefix, const char* message, ...) {
     const b32 isError = level < LogLevel::LVL_WARN;
 
     // TODO: better log message composing
@@ -36,7 +36,11 @@ void Logger::log(LogLevel level, const char* message, ...) {
     va_end(args);
 
     char outBuffer2[messageLength];
-    ::sprintf(outBuffer2, "%s: %s\n", LOG_LEVEL_STRINGS[static_cast<u8>(level)], outBuffer); // TODO: sprintf
+    if (prefix != nullptr) {
+        ::sprintf(outBuffer2, "[%s] %s: %s\n", prefix, LOG_LEVEL_STRINGS[static_cast<u8>(level)], outBuffer); // TODO: sprintf
+    } else {
+        ::sprintf(outBuffer2, "%s: %s\n", LOG_LEVEL_STRINGS[static_cast<u8>(level)], outBuffer); // TODO: sprintf
+    }
 
     if (isError) {
         platform::console::writeError(outBuffer2, LOG_LEVEL_COLORS[static_cast<u8>(level)]);
@@ -45,8 +49,8 @@ void Logger::log(LogLevel level, const char* message, ...) {
     }
 }
 
-void Logger::reportAssertionFailure(const char* expression, const char* message, const char* file, i32 line) {
-    log(LogLevel::LVL_FATAL, "Assertion failure: %s, message: %s, in file: %s, line: %d", expression, message, file, line);
+void Logger::reportAssertionFailure(const char* expression, const char* prefix, const char* message, const char* file, i32 line) {
+    log(LogLevel::LVL_FATAL, prefix, "Assertion failure: %s, message: %s, in file: %s, line: %d", expression, message, file, line);
 }
 
 } // namespace efreet::engine

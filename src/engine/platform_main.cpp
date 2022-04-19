@@ -20,7 +20,7 @@ int WINAPI WinMain(::HINSTANCE, ::HINSTANCE, ::LPSTR, int) {
 
 #endif
 
-    efreet::LoggerProvider::setLogger(&efreet::engine::Logger::instance());
+    efreet::LoggerProvider::setLogger(&efreet::engine::Logger::instance(), "ENGINE");
 
     return efreet::engine::platform::application::exec();
 }

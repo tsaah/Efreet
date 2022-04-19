@@ -9,8 +9,8 @@ class ILogger {
 public:
     virtual ~ILogger() = default;
 
-    virtual void log(LogLevel level, const char* message, ...) = 0;
-    virtual void reportAssertionFailure(const char* expression, const char* message, const char* file, i32 line) = 0;
+    virtual void log(LogLevel level, const char* prefix, const char* message, ...) = 0;
+    virtual void reportAssertionFailure(const char* expression, const char* prefix, const char* message, const char* file, i32 line) = 0;
 };
 
 } // namespace efreet

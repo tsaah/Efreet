@@ -10,8 +10,8 @@ class Logger final: public ILogger {
 public:
     static Logger& instance();
 
-    void log(LogLevel level, const char* message, ...) override;
-    void reportAssertionFailure(const char* expression, const char* message, const char* file, i32 line) override;
+    void log(LogLevel level, const char* prefix, const char* message, ...) override;
+    void reportAssertionFailure(const char* expression, const char* prefix, const char* message, const char* file, i32 line) override;
 
 private:
     Logger() = default;

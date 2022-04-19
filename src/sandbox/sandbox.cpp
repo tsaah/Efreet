@@ -29,11 +29,11 @@ u32 Sandbox::version() {
 
 b32 Sandbox::initialize(const ModuleConfig& config) {
     E_ASSERT_DEBUG(::GetLastError() == 0);
-    LoggerProvider::setLogger(config.logger);
+    LoggerProvider::setLogger(config.logger, "SANDBOX");
     E_ASSERT_DEBUG(::GetLastError() == 0);
     // E_INFO("Module %s is initialized", name());
     if (efreet::LoggerProvider::logger() != nullptr) {
-        efreet::LoggerProvider::logger()->log(efreet::LogLevel::LVL_INFO, "Module %s is initialized",name());
+        E_INFO("Module %s is initialized",name());
     };
     const auto le = ::GetLastError();
     E_ASSERT_DEBUG(::GetLastError() == 0);

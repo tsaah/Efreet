@@ -162,7 +162,7 @@ Window create(const Config* const config) {
         state.clientSize = DEFAULT_CLIENT_SIZE;
     }
 
-    state.style |= parent ? WS_CHILD : WS_OVERLAPPEDWINDOW;
+    state.style |= WS_VISIBLE | (parent ? WS_CHILD : WS_OVERLAPPEDWINDOW);
 
     ::RECT rc{ state.position.x, state.position.y, state.position.x + state.clientSize.width, state.position.y + state.clientSize.height };
     {
@@ -243,10 +243,9 @@ void setFullscreen(WindowId id, b32 fullscreen) {
             ::GetWindowRect(state.handle, &windowRect);
             state.position = { windowRect.left, windowRect.top };
             state.style = 0;
-            ::SetWindowLongPtrA(state.handle, GWL_STYLE, state.style);
+            ::SetWindowLongPtrA(state.handle, GWL_STYLE, 0);
             ::ShowWindow(state.handle, SW_MAXIMIZE);
         } else {
-            state.style = WS_VISIBLE | WS_OVERLAPPEDWINDOW;
             ::SetWindowLongPtrA(state.handle, GWL_STYLE, state.style);
             resize(state, state.position, state.clientSize);
             ::ShowWindow(state.handle, SW_SHOWNORMAL);
