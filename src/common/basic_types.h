@@ -19,6 +19,7 @@ using i64 = signed long long;
 using f32 = float;
 using f64 = double;
 
+using b8 = bool;
 using b32 = i32;
 
 STATIC_ASSERT(sizeof(u8) == 1, "Expected size of u8 should be 1 byte");

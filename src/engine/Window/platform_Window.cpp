@@ -224,7 +224,6 @@ void destroy(WindowId id) {
     state.handle = nullptr;
     // E_ASSERT(destroyWindowResult != 0);
     DEBUG_OP(if (::GetLastError() == 1400) { ::SetLastError(0); });
-    const auto le = ::GetLastError();
     E_ASSERT_DEBUG(::GetLastError() == 0);
     removeWindowState(id);
 }

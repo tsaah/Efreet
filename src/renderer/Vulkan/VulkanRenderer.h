@@ -11,7 +11,7 @@ public:
     const char* description() override;
     u32 version() override;
 
-    b32 init(const RendererBackendConfig& config) override;
+    b8 init(const RendererBackendConfig& config) override;
     void cleanup() override;
 };
 

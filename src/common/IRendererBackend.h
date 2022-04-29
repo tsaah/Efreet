@@ -14,7 +14,7 @@ public:
     virtual const char* description() = 0;
     virtual u32 version() = 0;
 
-    virtual b32 init(const RendererBackendConfig& config) = 0;
+    virtual b8 init(const RendererBackendConfig& config) = 0;
     virtual void cleanup() = 0;
 };
 

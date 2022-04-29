@@ -21,6 +21,7 @@ renderer::RenderSurface window_;
 bool isRunning_{ false };
 bool isSuspended_{ false };
 IModule* module_{ nullptr };
+renderer::IRendererBackend* rendererBackend_{ nullptr };
 
 LRESULT applicationProc(::HWND windowHandle, u32 message, ::WPARAM wParam, ::LPARAM lParam) {
     switch (message) {
@@ -42,10 +43,10 @@ LRESULT applicationProc(::HWND windowHandle, u32 message, ::WPARAM wParam, ::LPA
         case WM_SYSKEYDOWN:
         case WM_KEYUP:
         case WM_SYSKEYUP: {
-            const b32 pressed = (message == WM_KEYDOWN || message == WM_SYSKEYDOWN);
+            const b8 pressed = (message == WM_KEYDOWN || message == WM_SYSKEYDOWN);
             // const auto k = static_cast<core::Input::Keys>(static_cast<u16>(wParam));
             // E_Input.processKey(k, pressed);
-            E_TRACE("event key '0x%x', pressed: '%u'", static_cast<u16>(wParam), pressed);
+            E_TRACE("event key '%c' (0x%x) %s", static_cast<u16>(wParam), static_cast<u16>(wParam), pressed ? "pressed" : "released");
         } break;
         case WM_MOUSEMOVE: {
             // const v2i pos(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
@@ -113,18 +114,20 @@ b32 init() {
     }
 
     {
-        auto* renderer = renderer::RendererBackendFactory::create(renderer::RendererBackendFactory::Vulkan);
-        if (renderer == nullptr) {
+        rendererBackend_ = renderer::RendererBackendFactory::create(renderer::RendererBackendFactory::Vulkan);
+        if (rendererBackend_ == nullptr) {
             return false;
         }
-        const auto name = renderer->name();
-        const auto description = renderer->description();
-        const auto version = renderer->version();
+        const auto name = rendererBackend_->name();
+        const auto description = rendererBackend_->description();
+        const auto version = rendererBackend_->version();
 
         RendererBackendConfig config;
         config.applicationName = module_->name();
         config.logger = LoggerProvider::logger();
-        renderer->init(config);
+        config.instance = nullptr;
+        config.hwnd = (::HWND)(window_.window.handle());
+        rendererBackend_->init(config);
     }
 
     // E_ASSERT(subscribe(Event::APPLICATION_QUIT));
@@ -151,6 +154,7 @@ b32 init() {
 }
 
 void shutdown() {
+    rendererBackend_->cleanup();
     window::destroy(window_.window.id());
     module::unload(module_);
 }
@@ -174,6 +178,7 @@ i32 exec() {
         ::MSG message;
         E_ASSERT_DEBUG(::GetLastError() == 0);
         while (::PeekMessageA(&message, nullptr, 0, 0, PM_REMOVE)) {
+            DEBUG_OP(if (::GetLastError() == 1400) { ::SetLastError(0); });
             E_ASSERT_DEBUG(::GetLastError() == 0);
             ::TranslateMessage(&message);
             E_ASSERT_DEBUG(::GetLastError() == 0);

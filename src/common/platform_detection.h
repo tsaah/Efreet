@@ -3,6 +3,7 @@
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__)
     #define EFREET_PLATFORM_WINDOWS
     #define WIN32_LEAN_AND_MEAN
+    #include <Windows.h>
     #ifndef _WIN64
         #error "64-bit is required on Windows!"
     #endif
