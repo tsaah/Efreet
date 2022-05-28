@@ -1,4 +1,5 @@
 #include "Device.h"
+#include "Context.h"
 
 #include <vector>
 
@@ -12,24 +13,6 @@ struct QueueFamilyInfo {
     u32 computeFamilyIndex{ static_cast<u32>(-1) };
     u32 transferFamilyIndex{ static_cast<u32>(-1) };
 };
-
-inline void querySwapchainSupport(const VkPhysicalDevice& physicalDevice, const VkSurfaceKHR& surface, SwapchainSupportInfo& swapchainSupportinfo) {
-    VK_CHECK(vkGetPhysicalDeviceSurfaceCapabilitiesKHR(physicalDevice, surface, &swapchainSupportinfo.capabilities));
-
-    u32 formatCount = 0;
-    VK_CHECK(vkGetPhysicalDeviceSurfaceFormatsKHR(physicalDevice, surface, &formatCount, nullptr));
-    if (formatCount != 0) {
-        swapchainSupportinfo.formats.resize(formatCount);
-        VK_CHECK(vkGetPhysicalDeviceSurfaceFormatsKHR(physicalDevice, surface, &formatCount, swapchainSupportinfo.formats.data()));
-    }
-
-    u32 presentModeCount = 0;
-    VK_CHECK(vkGetPhysicalDeviceSurfacePresentModesKHR(physicalDevice, surface, &presentModeCount, nullptr));
-    if (presentModeCount != 0) {
-        swapchainSupportinfo.presentModes.resize(presentModeCount);
-        VK_CHECK(vkGetPhysicalDeviceSurfacePresentModesKHR(physicalDevice, surface, &presentModeCount, swapchainSupportinfo.presentModes.data()));
-    }
-}
 
 inline b8 physicalDeviceMeetsRequirements(
     const VkPhysicalDevice& device,
@@ -418,6 +401,31 @@ void destroy(Context& context) {
     context.device.presentQueueIndex = -1;
     context.device.computeQueueIndex = -1;
     context.device.transferQueueIndex = -1;
+}
+
+b8 detectDepthFormat(Device& device) {
+    const u64 candidateCount = 3;
+    VkFormat candidates[candidateCount] = {
+        VK_FORMAT_D32_SFLOAT,
+        VK_FORMAT_D32_SFLOAT_S8_UINT,
+        VK_FORMAT_D24_UNORM_S8_UINT
+    };
+
+    u32 flags = VK_FORMAT_FEATURE_DEPTH_STENCIL_ATTACHMENT_BIT;
+    for (u64 i = 0; i < candidateCount; ++i) {
+        VkFormatProperties properties;
+        vkGetPhysicalDeviceFormatProperties(device.physicalDevice, candidates[i], &properties);
+
+        if ((properties.linearTilingFeatures & flags) == flags) {
+            device.depthFormat = candidates[i];
+            return true;
+        } else if ((properties.optimalTilingFeatures & flags) == flags) {
+            device.depthFormat = candidates[i];
+            return true;
+        }
+    }
+
+    return false;
 }
 
 } // namespace efreet::engine::renderer::vulkan::device

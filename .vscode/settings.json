@@ -13,6 +13,8 @@
         "initializer_list": "cpp",
         "type_traits": "cpp",
         "xutility": "cpp",
-        "iosfwd": "cpp"
+        "iosfwd": "cpp",
+        "functional": "cpp",
+        "xtr1common": "cpp"
     }
 }

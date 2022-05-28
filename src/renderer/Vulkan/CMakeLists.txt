@@ -9,4 +9,4 @@ set(ADDITIONAL_LINK_LIBRARIES
     ${Vulkan_LIBRARIES}
 )
 
-build_shared_library(er_vulkan RENDERER_EXPORT_DEFINE)
+build_shared_library(erb_vulkan RENDERER_EXPORT_DEFINE)

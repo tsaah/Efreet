@@ -2,12 +2,10 @@
 #ifdef EFREET_PLATFORM_WINDOWS
 
 #include "Application.h"
+#include "RendererBackend/RendererBackend.h"
 
-#include <IRendererBackend.h>
 #include <Module/platform_Module.h>
 #include <Renderer/Renderer.h>
-#include <RendererBackend/RendererBackendFactory.h>
-#include <RendererBackendConfig.h>
 #include <Window/Window.h>
 #include <Window/platform_Window.h>
 
@@ -21,7 +19,6 @@ renderer::RenderSurface window_;
 bool isRunning_{ false };
 bool isSuspended_{ false };
 IModule* module_{ nullptr };
-renderer::IRendererBackend* rendererBackend_{ nullptr };
 
 LRESULT applicationProc(::HWND windowHandle, u32 message, ::WPARAM wParam, ::LPARAM lParam) {
     switch (message) {
@@ -114,20 +111,18 @@ b32 init() {
     }
 
     {
-        rendererBackend_ = renderer::RendererBackendFactory::create(renderer::RendererBackendFactory::Vulkan);
-        if (rendererBackend_ == nullptr) {
-            return false;
-        }
-        const auto name = rendererBackend_->name();
-        const auto description = rendererBackend_->description();
-        const auto version = rendererBackend_->version();
-
         RendererBackendConfig config;
+        config.backendType = renderer::BackendType::Vulkan;
         config.applicationName = module_->name();
         config.logger = LoggerProvider::logger();
         config.instance = nullptr;
         config.hwnd = (::HWND)(window_.window.handle());
-        rendererBackend_->init(config);
+
+        if (!renderer::backend::create(config)) {
+            return false;
+        }
+        const auto backendType = renderer::backend::type();
+        const auto version = renderer::backend::version();
     }
 
     // E_ASSERT(subscribe(Event::APPLICATION_QUIT));
@@ -154,7 +149,7 @@ b32 init() {
 }
 
 void shutdown() {
-    rendererBackend_->cleanup();
+    renderer::backend::destroy();
     window::destroy(window_.window.id());
     module::unload(module_);
 }

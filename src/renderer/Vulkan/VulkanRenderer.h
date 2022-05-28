@@ -1,18 +1,19 @@
 #pragma once
 
 #include <common.h>
-#include <IRendererBackend.h>
+#include <renderer_export.h>
+#include <RendererBackendType.h>
+#include <RendererBackendConfig.h>
 
+extern "C" {
 namespace efreet::engine::renderer::vulkan {
 
-class RENDERER_EXPORT VulkanRenderer final: public IRendererBackend {
-public:
-    const char* name() override;
-    const char* description() override;
-    u32 version() override;
+RENDERER_EXPORT BackendType backendType();
+RENDERER_EXPORT u32 version();
 
-    b8 init(const RendererBackendConfig& config) override;
-    void cleanup() override;
-};
+RENDERER_EXPORT b8 init(const RendererBackendConfig& config);
+RENDERER_EXPORT void cleanup();
 
 } // namespace efreet::engine::renderer::vulkan
+
+} // extern "C"
