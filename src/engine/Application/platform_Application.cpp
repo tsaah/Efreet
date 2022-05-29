@@ -117,6 +117,8 @@ b32 init() {
         config.logger = LoggerProvider::logger();
         config.instance = nullptr;
         config.hwnd = (::HWND)(window_.window.handle());
+        config.width = window_.window.size().width;
+        config.height = window_.window.size().height;
 
         if (!renderer::backend::create(config)) {
             return false;

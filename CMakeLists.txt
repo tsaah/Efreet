@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.23 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.22 FATAL_ERROR)
 project(Efreet VERSION 1.0 LANGUAGES CXX)
 
 include(bootstrap.cmake)

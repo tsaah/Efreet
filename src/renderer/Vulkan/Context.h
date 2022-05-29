@@ -4,6 +4,7 @@
 #include "Device.h"
 #include "Swapchain.h"
 #include "Renderpass.h"
+#include "Buffer.h"
 
 #include <vector>
 
@@ -31,24 +32,24 @@ struct Context final{
     Renderpass mainRenderpass;
     // Renderpass ui_renderpass;
 
-    // Buffer object_vertex_buffer;
-    // Buffer object_index_buffer;
+    Buffer objectVertexBuffer;
+    Buffer objectIndexBuffer;
 
-    // CommandBuffer* graphicsCommandBuffers{ nullptr };
+    std::vector<CommandBuffer> graphicsCommandBuffers;
 
     // /** @brief The semaphores used to indicate image availability, one per frame. @note: darray */
-    // VkSemaphore* image_available_semaphores;
+    std::vector<VkSemaphore> imageAvailableSemaphores;
 
     // /** @brief The semaphores used to indicate queue availability, one per frame. @note: darray */
-    // VkSemaphore* queue_complete_semaphores;
+    std::vector<VkSemaphore> queueCompleteSemaphores;
 
-    // /** @brief The current number of in-flight fences. */
-    // u32 in_flight_fence_count;
-    // /** @brief The in-flight fences, used to indicate to the application when a frame is busy/ready. */
-    // VkFence in_flight_fences[2];
+    /** @brief The current number of in-flight fences. */
+    // u32 inFlightFenceCount{ 0 };
+    /** @brief The in-flight fences, used to indicate to the application when a frame is busy/ready. */
+    VkFence inFlightFences[2];
 
-    // /** @brief Holds pointers to fences which exist and are owned elsewhere, one per frame. */
-    // VkFence images_in_flight[3];
+    /** @brief Holds pointers to fences which exist and are owned elsewhere, one per frame. */
+    VkFence imagesInFlight[3];
 
     // /** @brief The current image index. */
     // u32 image_index;

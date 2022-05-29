@@ -7,7 +7,8 @@ namespace efreet::engine::renderer::vulkan::instance {
 b8 create(Context& context, const char* applicationName) {
     VkApplicationInfo applicationInfo = { VK_STRUCTURE_TYPE_APPLICATION_INFO };
     {
-        applicationInfo.apiVersion = VK_API_VERSION_1_3;
+        // applicationInfo.apiVersion = VK_API_VERSION_1_3;
+        applicationInfo.apiVersion = VK_API_VERSION_1_2;
         applicationInfo.pApplicationName = applicationName;
         applicationInfo.applicationVersion = VK_MAKE_VERSION(1, 0, 0);
         applicationInfo.pEngineName = "Efreet Engine";
